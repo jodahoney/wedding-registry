@@ -11,13 +11,12 @@ function getDatabaseUri() {
     const dbName = process.env.DATABASE_NAME || "wedding_registration"
 
     // if the DATABASE_URL env variable, use that, otherwise, create the db connection string ourselvese
-    return process.env.DATABASE_URL || `postgresql://${dbUser}:${dbPass}:${dbHost}${dbPort}/${dbName}`
+    return process.env.DATABASE_URL || `postgresql://${dbUser}:${dbPass}@${dbHost}:${dbPort}/${dbName}`
 
 }
 
 console.log("Wedding registration Config:".red)
 console.log("PORT:".blue, PORT)
-console.log("Database URI:".blue, getDatabaseUri())
 console.log("---")
 
 module.exports = {
