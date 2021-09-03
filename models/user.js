@@ -1,5 +1,7 @@
 const db = require("../db")
+const bcrypt = require("bcrypt")
 const { BadRequestError, UnauthorizedError } = require("../utils/errors")
+const { BCRYPT_WORK_FACTOR } = require("../config")
 
 class User {
     static async login(credentials) {
@@ -37,7 +39,7 @@ class User {
         }
         //
         // then, take the users pass and hash it
-        // TODO:
+        const hashedPassword = await bcrypt.hash(credentials.password, BCRYPT_WORK_FACTOR)
         // take the users email and lowercase it
         const lowercasedEmail = credentials.email.toLowerCase()
         // 
@@ -51,7 +53,7 @@ class User {
             )
             VALUES ($1, $2, $3, $4)
             RETURNING id, email, rsvp_status, num_guests, created_at;
-        `, [lowercasedEmail, credentials.password, credentials.rsvpStatus, credentials.numGuests])
+        `, [lowercasedEmail, hashedPassword, credentials.rsvpStatus, credentials.numGuests])
         
         // return the user
         const user = result.rows[0]
