@@ -7,7 +7,7 @@ router.post("/login", async (req, res, next) => {
     try {
         // taking the users email and pass and attempting to authenticate them
         const user = await User.login(req.body)
-        return red.status(200).json({ user })
+        return res.status(200).json({ user })
     } catch(err) {
         next(err)
     }
